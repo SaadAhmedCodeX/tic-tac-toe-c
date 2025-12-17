@@ -10,6 +10,7 @@ void clear_screen();
 int main()
 {
     input_difficulty();
+    clear_screen();
 
     return 0;
 }
@@ -37,7 +38,7 @@ void input_difficulty()
 }
 
 void clear_screen(){
-    #ifdef _Win32
+    #ifdef _WIN32
         system("cls");
     #else 
         system("clear");
