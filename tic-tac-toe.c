@@ -2,7 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct{
+    int player;
+    int computer;
+    int draw;
+} Score;
+
 int difficulty;
+Score score = {.player = 0, .computer = 0, .draw = 0};
 
 void input_difficulty();
 void clear_screen();
