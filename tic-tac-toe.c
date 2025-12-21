@@ -18,7 +18,7 @@ void input_difficulty();
 void clear_screen();
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
-// int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
+int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
 
 int main()
 {
@@ -96,20 +96,44 @@ int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player)
 {
     for (int i = 0; i < BOARD_SIZE; i++)
     {
-        if (board[i][0] == player && board[i][1] == player && board[i][2] == player)
+        if (board[i][0] == player &&
+            board[i][1] == player &&
+            board[i][2] == player) // Checks each coloumn
         {
-            return 1; // Checks each coloumn
+            return 1;
         }
 
-        if (board[0][i] == player && board[1][i] == player && board[2][i] == player)
+        if (board[0][i] == player &&
+            board[1][i] == player &&
+            board[2][i] == player) // Checks each row
         {
-            return 1; // Checks each row
+            return 1;
         }
     }
 
-    if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) || // Checks for primary diagonal
-        (board[0][2] == player && board[1][1] == player && board[2][0] == player))
-    { // Checks for secondary diagonal
+    if ((board[0][0] == player &&
+         board[1][1] == player &&
+         board[2][2] == player) || // Checks for primary diagonal
+        (board[0][2] == player &&
+         board[1][1] == player &&
+         board[2][0] == player)) // Checks for secondary diagonal
+    {
         return 1;
     }
+    return 0; // Returns false if there is no winnder
+}
+
+int check_draw(char board[BOARD_SIZE][BOARD_SIZE])
+{
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            if (board[i][j] == ' ')  // Checks if there is any empty spot
+            {             
+                return 0; // Returns false if there is an empty slot i.e Not a draw
+            }
+        }
+    }
+    return 1; // Returns true if all the spots are filled i.e Draw
 }
