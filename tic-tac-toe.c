@@ -4,7 +4,8 @@
 
 #define BOARD_SIZE 3
 
-typedef struct{
+typedef struct
+{
     int player;
     int computer;
     int draw;
@@ -16,6 +17,8 @@ Score score = {.player = 0, .computer = 0, .draw = 0};
 void input_difficulty();
 void clear_screen();
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
+int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
+// int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
 
 int main()
 {
@@ -26,7 +29,7 @@ int main()
     };
 
     input_difficulty();
-    clear_screen(); 
+    clear_screen();
     print_board(board);
 
     return 0;
@@ -54,35 +57,59 @@ void input_difficulty()
     }
 }
 
-void clear_screen(){
-    #ifdef _WIN32
-        system("cls");
-    #else 
-        system("clear");
-    #endif
+void clear_screen()
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
 }
 
-void print_board(char board[BOARD_SIZE][BOARD_SIZE]){
+void print_board(char board[BOARD_SIZE][BOARD_SIZE])
+{
     clear_screen();
 
     printf("Score - Player X: %d, Computer O: %d, Draws: %d", score.player, score.computer, score.draw);
     printf("\nTic Tac Toe\n");
-    
+
     for (int i = 0; i < BOARD_SIZE; i++)
     {
         printf("\n");
         for (int j = 0; j < BOARD_SIZE; j++)
         {
             printf(" %c ", board[i][j]);
-            if(j < BOARD_SIZE - 1){
+            if (j < BOARD_SIZE - 1)
+            {
                 printf("|");
             }
         }
-        if(i < BOARD_SIZE - 1){
+        if (i < BOARD_SIZE - 1)
+        {
             printf("\n---+---+---");
-        }     
-        
+        }
     }
     printf("\n\n");
-    
+}
+
+int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player)
+{
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player)
+        {
+            return 1; // Checks each coloumn
+        }
+
+        if (board[0][i] == player && board[1][i] == player && board[2][i] == player)
+        {
+            return 1; // Checks each row
+        }
+    }
+
+    if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) || // Checks for primary diagonal
+        (board[0][2] == player && board[1][1] == player && board[2][0] == player))
+    { // Checks for secondary diagonal
+        return 1;
+    }
 }
