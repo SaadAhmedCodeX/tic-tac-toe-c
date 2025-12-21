@@ -19,8 +19,15 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 
 int main()
 {
+    char board[BOARD_SIZE][BOARD_SIZE] = {
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+    };
+
     input_difficulty();
-    clear_screen();
+    clear_screen(); 
+    print_board(board);
 
     return 0;
 }
@@ -58,7 +65,7 @@ void clear_screen(){
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]){
     clear_screen();
 
-    printf("\nScore - Player X: %d, Computer O: %d, Draws: %d", score.player, score.computer, score.draw);
+    printf("Score - Player X: %d, Computer O: %d, Draws: %d", score.player, score.computer, score.draw);
     printf("\nTic Tac Toe\n");
     
     for (int i = 0; i < BOARD_SIZE; i++)
@@ -76,5 +83,6 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]){
         }     
         
     }
+    printf("\n\n");
     
 }
