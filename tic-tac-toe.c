@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define BOARD_SIZE 3
+
 typedef struct{
     int player;
     int computer;
@@ -13,6 +15,7 @@ Score score = {.player = 0, .computer = 0, .draw = 0};
 
 void input_difficulty();
 void clear_screen();
+void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 
 int main()
 {
@@ -50,4 +53,28 @@ void clear_screen(){
     #else 
         system("clear");
     #endif
+}
+
+void print_board(char board[BOARD_SIZE][BOARD_SIZE]){
+    clear_screen();
+
+    printf("\nScore - Player X: %d, Computer O: %d, Draws: %d", score.player, score.computer, score.draw);
+    printf("\nTic Tac Toe\n");
+    
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        printf("\n");
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            printf(" %c ", board[i][j]);
+            if(j < BOARD_SIZE - 1){
+                printf("|");
+            }
+        }
+        if(i < BOARD_SIZE - 1){
+            printf("\n---+---+---");
+        }     
+        
+    }
+    
 }
