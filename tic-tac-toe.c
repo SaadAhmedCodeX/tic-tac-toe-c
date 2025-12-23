@@ -1,6 +1,7 @@
 // Tic Tac Toe game using C
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define BOARD_SIZE 3
 
@@ -20,14 +21,18 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
 int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
 void play_game();
+void player_move(char board[BOARD_SIZE][BOARD_SIZE]);
+void computer_move(char board[BOARD_SIZE][BOARD_SIZE]);
 
 int main()
 {
+    srand(time(NULL));
     int choice;
+    ;
 
     input_difficulty();
     play_game();
-    
+
     do
     {
         printf("\nPlay again? (1 for yes, O for no): ");
@@ -36,7 +41,6 @@ int main()
 
     printf("Thanks for playing.\n");
     return 0;
-
 }
 
 void input_difficulty()
@@ -149,5 +153,47 @@ void play_game()
         {' ', ' ', ' '},
         {' ', ' ', ' '},
     };
-    print_board(board);
+    char current_player = rand() % 2 == 0 ? 'X' : 'O';
+
+    while (1)
+    {
+        print_board(board);
+        if (current_player == 'X')
+        {
+            player_move(board);
+            if (check_win(board, "X"))
+            {
+                score.player++;
+                printf("Congratulations You have won.!!\n");
+                break;
+            }
+            current_player = 'O';
+        }
+        else
+        {
+            computer_move(board);
+            if (check_win(board, "O"))
+            {
+                score.computer++;
+                printf("Computer Won! Better luck next time.\n");
+                break;
+            }
+            current_player = 'X';
+        }
+
+        if (check_draw(board))
+        {
+            score.draw++;
+            printf("It's a Draw!\n");
+            break;
+        }
+    }
+}
+
+void player_move(char board[BOARD_SIZE][BOARD_SIZE])
+{
+}
+
+void player_move(char board[BOARD_SIZE][BOARD_SIZE])
+{
 }
