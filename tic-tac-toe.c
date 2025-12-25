@@ -209,7 +209,7 @@ void player_move(char board[BOARD_SIZE][BOARD_SIZE])
     do
     {
         printf("\nPlayer X's turn.");
-        printf("\nEnter row and column (1-3) for X");
+        printf("\nEnter row and column (1-3) for X: ");
         scanf("%d", &row);
         scanf("%d", &col);
 
@@ -239,7 +239,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
             }
         }
     }
-    
+
     // 2. Play for Immediate block
     for (int i = 0; i < BOARD_SIZE; i++)
     {
@@ -250,7 +250,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
                 board[i][j] = X;
                 if (check_win(board, X))
                 {
-                    board[i][j] = 'O';
+                    board[i][j] = O;
                     return;
                 }
                 board[i][j] = ' ';
@@ -258,4 +258,43 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
         }
     }
 
+    // GOD mode
+    if (difficulty == 2)
+    {
+        // 3. Play Center if available
+        if (board[1][1] == ' ')
+        {
+            board[1][1] = O;
+            return;
+        }
+
+        // 4. Play Corner if available
+        int corner[4][2] = {
+            {0, 0},
+            {0, 2},
+            {2, 0},
+            {2, 2}};
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (board[corner[i][0]][corner[i][1]] == ' ')
+            {
+                board[corner[i][0]][corner[i][1]] = O;
+                return;
+            }
+        }
+    }
+
+    // 5. Play first availabe move
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            if (board[i][j] == ' ')
+            {
+                board[i][j] = O;
+                return;
+            }
+        }
+    }
 }
