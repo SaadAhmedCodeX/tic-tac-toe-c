@@ -240,6 +240,21 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
         }
     }
     
-
+ // 1. Play for Immediate win
+    for (int i = 0; i < BOARD_SIZE; i++)
+    {
+        for (int j = 0; j < BOARD_SIZE; j++)
+        {
+            if (board[i][j] == ' ')
+            {
+                board[i][j] = O;
+                if (check_win(board, O))
+                {
+                    return;
+                }
+                board[i][j] = ' ';
+            }
+        }
+    }
 
 }
