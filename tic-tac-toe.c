@@ -4,6 +4,8 @@
 #include <time.h>
 
 #define BOARD_SIZE 3
+#define X 'X'
+#define O 'O'
 
 typedef struct
 {
@@ -21,8 +23,8 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
 int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
 void play_game();
-void player_move(char board[BOARD_SIZE][BOARD_SIZE]);
-void computer_move(char board[BOARD_SIZE][BOARD_SIZE]);
+void player_move(char board[BOARD_SIZE][BOARD_SIZE], char player);
+void computer_move(char board[BOARD_SIZE][BOARD_SIZE], char player);
 
 int main()
 {
@@ -153,32 +155,32 @@ void play_game()
         {' ', ' ', ' '},
         {' ', ' ', ' '},
     };
-    char current_player = rand() % 2 == 0 ? 'X' : 'O';
+    char current_player = rand() % 2 == 0 ? X : O;
 
     while (1)
     {
         print_board(board);
-        if (current_player == 'X')
+        if (current_player == X)
         {
-            player_move(board);
-            if (check_win(board, "X"))
+            player_move(board, X);
+            if (check_win(board, X))
             {
                 score.player++;
                 printf("Congratulations You have won.!!\n");
                 break;
             }
-            current_player = 'O';
+            current_player = O;
         }
         else
         {
-            computer_move(board);
-            if (check_win(board, "O"))
+            computer_move(board, O);
+            if (check_win(board, O))
             {
                 score.computer++;
                 printf("Computer Won! Better luck next time.\n");
                 break;
             }
-            current_player = 'X';
+            current_player = X;
         }
 
         if (check_draw(board))
@@ -190,10 +192,11 @@ void play_game()
     }
 }
 
-void player_move(char board[BOARD_SIZE][BOARD_SIZE])
+void player_move(char board[BOARD_SIZE][BOARD_SIZE], char player)
 {
+
 }
 
-void player_move(char board[BOARD_SIZE][BOARD_SIZE])
+void computer_move(char board[BOARD_SIZE][BOARD_SIZE],char player)
 {
 }
