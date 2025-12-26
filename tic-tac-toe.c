@@ -6,6 +6,7 @@
 #define BOARD_SIZE 3
 #define X 'X'
 #define O 'O'
+#define EMPTY ' '
 
 typedef struct
 {
@@ -89,7 +90,15 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE])
         printf("\n");
         for (int j = 0; j < BOARD_SIZE; j++)
         {
-            printf(" %c ", board[i][j]);
+            if (board[i][j] == EMPTY)
+            {
+                printf("[%d]", i * 3 + j + 1);
+            }
+            else
+            {
+                printf(" %c ", board[i][j]);
+            }
+
             if (j < BOARD_SIZE - 1)
             {
                 printf("|");
@@ -109,14 +118,14 @@ int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player)
     {
         if (board[i][0] == player &&
             board[i][1] == player &&
-            board[i][2] == player) // Checks each coloumn
+            board[i][2] == player) // Checks each row
         {
             return 1;
         }
 
         if (board[0][i] == player &&
             board[1][i] == player &&
-            board[2][i] == player) // Checks each row
+            board[2][i] == player) // Checks each column
         {
             return 1;
         }
@@ -131,7 +140,7 @@ int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player)
     {
         return 1;
     }
-    return 0; // Returns false if there is no winnder
+    return 0; // Returns false if there is no winner
 }
 
 int check_draw(char board[BOARD_SIZE][BOARD_SIZE])
@@ -140,7 +149,7 @@ int check_draw(char board[BOARD_SIZE][BOARD_SIZE])
     {
         for (int j = 0; j < BOARD_SIZE; j++)
         {
-            if (board[i][j] == ' ') // Checks if there is any empty spot
+            if (board[i][j] == EMPTY) // Checks if there is any empty spot
             {
                 return 0; // Returns false if there is an empty slot i.e Not a draw
             }
@@ -152,9 +161,9 @@ int check_draw(char board[BOARD_SIZE][BOARD_SIZE])
 void play_game()
 {
     char board[BOARD_SIZE][BOARD_SIZE] = {
-        {' ', ' ', ' '},
-        {' ', ' ', ' '},
-        {' ', ' ', ' '},
+        {EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY},
     };
     char current_player = rand() % 2 == 0 ? X : O;
 
@@ -200,25 +209,41 @@ void play_game()
 
 int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col)
 {
-    return !(row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ');
+    return !(row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != EMPTY);
 }
 
 void player_move(char board[BOARD_SIZE][BOARD_SIZE])
 {
+    int cell;
     int row, col;
-    do
+
+    while (1)
     {
         printf("\nPlayer X's turn.");
-        printf("\nEnter row and column (1-3) for X: ");
-        scanf("%d", &row);
-        scanf("%d", &col);
+        printf("\nEnter cell number (1-9): ");
+        scanf("%d", &cell);
 
-        row--;
-        col--; // Converting to zero based
+        // Check valid range
+        if (cell < 1 || cell > 9)
+        {
+            printf("Invalid input! Please enter a number between 1 and 9.\n");
+            continue;
+        }
 
-    } while (!is_valid_move(board, row, col));
+        row = (cell - 1) / 3;
+        col = (cell - 1) % 3;
 
-    board[row][col] = X;
+        // Check if cell is empty
+        if (!is_valid_move(board, row, col))
+        {
+            printf("Cell already occupied! Choose another cell.\n");
+            continue;
+        }
+
+        // Valid move
+        board[row][col] = X;
+        break;
+    }
 }
 
 void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
@@ -228,14 +253,14 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
     {
         for (int j = 0; j < BOARD_SIZE; j++)
         {
-            if (board[i][j] == ' ')
+            if (board[i][j] == EMPTY)
             {
                 board[i][j] = O;
                 if (check_win(board, O))
                 {
                     return;
                 }
-                board[i][j] = ' ';
+                board[i][j] = EMPTY;
             }
         }
     }
@@ -245,7 +270,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
     {
         for (int j = 0; j < BOARD_SIZE; j++)
         {
-            if (board[i][j] == ' ')
+            if (board[i][j] == EMPTY)
             {
                 board[i][j] = X;
                 if (check_win(board, X))
@@ -253,7 +278,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
                     board[i][j] = O;
                     return;
                 }
-                board[i][j] = ' ';
+                board[i][j] = EMPTY;
             }
         }
     }
@@ -262,7 +287,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
     if (difficulty == 2)
     {
         // 3. Play Center if available
-        if (board[1][1] == ' ')
+        if (board[1][1] == EMPTY)
         {
             board[1][1] = O;
             return;
@@ -277,7 +302,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
 
         for (int i = 0; i < 4; i++)
         {
-            if (board[corner[i][0]][corner[i][1]] == ' ')
+            if (board[corner[i][0]][corner[i][1]] == EMPTY)
             {
                 board[corner[i][0]][corner[i][1]] = O;
                 return;
@@ -285,12 +310,12 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
         }
     }
 
-    // 5. Play first availabe move
+    // 5. Play first available move
     for (int i = 0; i < BOARD_SIZE; i++)
     {
         for (int j = 0; j < BOARD_SIZE; j++)
         {
-            if (board[i][j] == ' ')
+            if (board[i][j] == EMPTY)
             {
                 board[i][j] = O;
                 return;
