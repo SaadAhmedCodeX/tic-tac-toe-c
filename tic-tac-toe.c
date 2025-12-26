@@ -60,7 +60,7 @@ void input_difficulty()
 
         if (difficulty != 1 && difficulty != 2)
         {
-            printf("\nIncorrect choice, Enter (1/2)!");
+            printf("\nIncorrect choice, Enter (1/2)!\n");
         }
         else
         {
