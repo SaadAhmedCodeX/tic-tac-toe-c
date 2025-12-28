@@ -120,6 +120,7 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE])
         printf("Score - Player (X): %d | Computer (O): %d | Draws: %d\n", score.playerX, score.playerO, score.draw);
 
         printf("Difficulty: ");
+        
         if (difficulty == EASY)
             printf("Easy\n");
         else if (difficulty == MEDIUM)
