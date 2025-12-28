@@ -32,10 +32,10 @@ void clear_screen();
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
 int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
-void play_game();
+int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col);
 void player_move(char board[BOARD_SIZE][BOARD_SIZE], char symbol);
 void computer_move(char board[BOARD_SIZE][BOARD_SIZE]);
-int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col);
+void play_game();
 
 int main()
 {
@@ -120,7 +120,7 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE])
         printf("Score - Player (X): %d | Computer (O): %d | Draws: %d\n", score.playerX, score.playerO, score.draw);
 
         printf("Difficulty: ");
-        
+
         if (difficulty == EASY)
             printf("Easy\n");
         else if (difficulty == MEDIUM)
@@ -208,104 +208,6 @@ int check_draw(char board[BOARD_SIZE][BOARD_SIZE])
     return 1; // Returns true if all the spots are filled i.e Draw
 }
 
-void play_game()
-{
-    char board[BOARD_SIZE][BOARD_SIZE] = {
-        {EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY},
-    };
-
-    char current_player = rand() % 2 == 0 ? X : O; // Randomly decides who starts first
-
-    print_board(board);
-
-    if (game_mode == PVC)
-    {
-        if (current_player == X)
-            printf("Player (X) starts first!\n");
-        else
-            printf("Computer (O) starts first!\n");
-    }
-    else // game_mode == PVP
-    {
-        if (current_player == X)
-            printf("Player 1 (X) starts first!\n");
-        else
-            printf("Player 2 (O) starts first!\n");
-    }
-
-    printf("Press Enter to continue...");
-    getchar(); // Eats newline
-    getchar(); // Waits
-
-    while (1)
-    {
-        print_board(board);
-
-        if (current_player == X)
-        {
-            player_move(board, X);
-        }
-        else
-        {
-            if (game_mode == PVP)
-                player_move(board, O);
-            else
-                computer_move(board);
-        }
-
-        if (check_win(board, current_player))
-        {
-            print_board(board);
-
-            if (game_mode == PVC)
-            {
-                if (current_player == X)
-                {
-                    score.playerX++;
-                    print_board(board);
-                    printf("Congratulations! Player (X) wins!\n");
-                    break;
-                }
-                else
-                {
-                    score.playerO++;
-                    print_board(board);
-                    printf("Computer (O) wins! Better luck next time.\n");
-                    break;
-                }
-            }
-            else
-            { // game_mode == PVP
-                if (current_player == X)
-                {
-                    score.playerX++;
-                    print_board(board);
-                    printf("Player 1 (X) wins!\n");
-                }
-                else
-                {
-                    score.playerO++;
-                    print_board(board);
-                    printf("Player 2 (O) wins\n");
-                }
-                break;
-            }
-        }
-
-        if (check_draw(board))
-        {
-            score.draw++;
-            print_board(board);
-            printf("It's a Draw!\n");
-            break;
-        }
-
-        current_player = (current_player == X) ? O : X;
-    }
-}
-
 int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col)
 {
     return !(row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != EMPTY);
@@ -318,7 +220,7 @@ void player_move(char board[BOARD_SIZE][BOARD_SIZE], char symbol)
 
     while (1)
     {
-        printf("\nPlayer %c's turn.", symbol);
+        printf("\nPlayer %c's turn.\n", symbol);
         printf("\nEnter cell number (1-9): ");
         scanf("%d", &cell);
 
@@ -437,5 +339,103 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
                 return;
             }
         }
+    }
+}
+
+void play_game()
+{
+    char board[BOARD_SIZE][BOARD_SIZE] = {
+        {EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY},
+    };
+
+    char current_player = rand() % 2 == 0 ? X : O; // Randomly decides who starts first
+
+    print_board(board);
+
+    if (game_mode == PVC)
+    {
+        if (current_player == X)
+            printf("Player (X) starts first!\n");
+        else
+            printf("Computer (O) starts first!\n");
+    }
+    else // game_mode == PVP
+    {
+        if (current_player == X)
+            printf("Player 1 (X) starts first!\n");
+        else
+            printf("Player 2 (O) starts first!\n");
+    }
+
+    printf("Press Enter to continue...");
+    getchar(); // Eats newline
+    getchar(); // Waits
+
+    while (1)
+    {
+        print_board(board);
+
+        if (current_player == X)
+        {
+            player_move(board, X);
+        }
+        else
+        {
+            if (game_mode == PVP)
+                player_move(board, O);
+            else
+                computer_move(board);
+        }
+
+        if (check_win(board, current_player))
+        {
+            print_board(board);
+
+            if (game_mode == PVC)
+            {
+                if (current_player == X)
+                {
+                    score.playerX++;
+                    print_board(board);
+                    printf("Congratulations! Player (X) wins!\n");
+                    break;
+                }
+                else
+                {
+                    score.playerO++;
+                    print_board(board);
+                    printf("Computer (O) wins! Better luck next time.\n");
+                    break;
+                }
+            }
+            else
+            { // game_mode == PVP
+                if (current_player == X)
+                {
+                    score.playerX++;
+                    print_board(board);
+                    printf("Player 1 (X) wins!\n");
+                }
+                else
+                {
+                    score.playerO++;
+                    print_board(board);
+                    printf("Player 2 (O) wins!\n");
+                }
+                break;
+            }
+        }
+
+        if (check_draw(board))
+        {
+            score.draw++;
+            print_board(board);
+            printf("It's a Draw!\n");
+            break;
+        }
+
+        current_player = (current_player == X) ? O : X;
     }
 }
