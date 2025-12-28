@@ -8,6 +8,13 @@
 #define O 'O'
 #define EMPTY ' '
 
+#define PVP 1
+#define PVC 2
+
+#define EASY 1
+#define MEDIUM 2
+#define HARD 3
+
 typedef struct
 {
     int player;
@@ -53,7 +60,7 @@ void input_difficulty()
     {
         printf("\nSelect difficulty level:");
         printf("\n1. Human (Standard)");
-        printf("\n2. God (Impossible to win)");
+        printf("\n2. Hard (Impossible to win)");
 
         printf("\nEnter your choice: ");
         scanf("%d", &difficulty);
@@ -283,7 +290,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE])
         }
     }
 
-    // GOD mode
+    // Hard mode
     if (difficulty == 2)
     {
         // 3. Play Center if available
