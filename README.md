@@ -7,6 +7,7 @@ A **console-based Tic Tac Toe game written in C**, designed as a personal projec
 ## Overview
 
 This project implements a classic Tic Tac Toe game that can be played directly in the terminal. It supports both **Player vs Player** and **Player vs Computer** modes, with multiple difficulty levels for the computer.
+
 ---
 
 ## Features
